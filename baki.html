@@ -32,6 +32,7 @@
     <p>モールス信号と同じです</p>
     <p>ー: バ</p>
     <p>・: キ</p>
+    <h3>日本語からバキ語</h3>
     <p>日本語(ひらがな)を入力</p>
     <p>翻訳前</p>
     <input type="text" id="send_message" placeholder="ここに入力してね！">
@@ -42,6 +43,12 @@
         <button id="twitter-share-button"><i class="fab fa-twitter"></i>ツイートする</button>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     </div>
+    <h3>バキ語から日本語</h3>
+    <p>バキ語を入力</p>
+    <input type="text" id="baki" placeholder="ここにバキ語を入力してね！">
+    <input type="button" value="実行" onclick="reverse()">
+    <p>翻訳後</p>
+    <p id="re_result"></p>
     <script type="text/javascript">
         t = function translate() {
             const inputText = document.getElementById("send_message").value;
@@ -49,68 +56,84 @@
             convText = convert(text);
             for (var i=0; i < convText.length; i++) {
                 if (convText[i] in dic) {
-                    convText[i] = dic[convText[i]];
+                    convText[i] = dic[convText[i]] + " ";
                 } else {
                     ;
                 }
             }
             var rtn = convText.join("");
-            console.log(rtn)
             var resultArea = document.getElementById("result");
             resultArea.innerHTML = rtn;
         }
-        const dic = {
-            'あ':'ババキババ ',
-            'い':'キバ ',
-            'う':'キキバ ',
-            'え':'バキバババ ',
-            'お':'キバキキキ ',
-            'か':'キバキキ ',
-            'き':'バキバキキ ',
-            'く':'キキキバ ',
-            'け':'バキババ ',
-            'こ':'ババババ ',
-            'さ':'バキバキバ ',
-            'し':'ババキバキ ',
-            'す':'バババキバ ',
-            'せ':'キバババキ ',
-            'そ':'バババキ ',
-            'た':'バキ ',
-            'ち':'キキバキ ',
-            'つ':'キババキ ',
-            'て':'キバキババ ',
-            'と':'キキバキキ ',
-            'な':'キバキ ',
-            'に':'バキバキ ',
-            'ぬ':'キキキキ ',
-            'ね':'ババキバ ',
-            'の':'キキババ ',
-            'は':'バキキキ ',
-            'ひ':'ババキキバ ',
-            'ふ':'ババキキ ',
-            'へ':'キ ',
-            'ほ':'バキキ ',
-            'ま':'バキキバ ',
-            'み':'キキバキバ ',
-            'む':'バ ',
-            'め':'バキキキバ ',
-            'も':'バキキバキ ',
-            'や':'キババ ',
-            'ゆ':'バキキババ ',
-            'よ':'ババ ',
-            'ら':'キキキ ',
-            'り':'ババキ ',
-            'る':'バキババキ ',
-            'れ':'バババ ',
-            'ろ':'キバキバ ',
-            'わ':'バキバ ',
-            'を':'キバババ ',
-            'ん':'キバキバキ ',
-            '、':'キバキバキバ ',
-            'ー':'キババキバ ',
-            '゛':'キキバ ',
-            '゜':'キキババキ '
+        function reverse() {
+            const inputText = document.getElementById("baki").value;
+            const text = inputText.toLowerCase().split(" ");
+            for (var i=0; i<text.length; i++) {
+                if (text[i] in redic) {
+                    text[i] = redic[text[i]];
+                } else {
+                    ;
+                }
+            }
+            var rtn = text.join("");
+            var resultArea = document.getElementById("re_result");
+            resultArea.innerHTML = rtn;
+            
         }
+        const dic = {
+            'あ':'ババキババ',
+            'い':'キバ',
+            'う':'キキバ',
+            'え':'バキバババ',
+            'お':'キバキキキ',
+            'か':'キバキキ',
+            'き':'バキバキキ',
+            'く':'キキキバ',
+            'け':'バキババ',
+            'こ':'ババババ',
+            'さ':'バキバキバ',
+            'し':'ババキバキ',
+            'す':'バババキバ',
+            'せ':'キバババキ',
+            'そ':'バババキ',
+            'た':'バキ',
+            'ち':'キキバキ',
+            'つ':'キババキ',
+            'て':'キバキババ',
+            'と':'キキバキキ',
+            'な':'キバキ',
+            'に':'バキバキ',
+            'ぬ':'キキキキ',
+            'ね':'ババキバ',
+            'の':'キキババ',
+            'は':'バキキキ',
+            'ひ':'ババキキバ',
+            'ふ':'ババキキ',
+            'へ':'キ',
+            'ほ':'バキキ',
+            'ま':'バキキバ',
+            'み':'キキバキバ',
+            'む':'バ',
+            'め':'バキキキバ',
+            'も':'バキキバキ',
+            'や':'キババ',
+            'ゆ':'バキキババ',
+            'よ':'ババ',
+            'ら':'キキキ',
+            'り':'ババキ',
+            'る':'バキババキ',
+            'れ':'バババ',
+            'ろ':'キバキバ',
+            'わ':'バキバ',
+            'を':'キバババ',
+            'ん':'キバキバキ',
+            '、':'キバキバキバ',
+            'ー':'キババキバ',
+            '゛':'キキ',
+            '゜':'キキババキ'
+        }
+
+        const redic = inverseObject(dic);
 
         const tagstr = {
             "が": "か゛", "ぎ": "き゛", "ぐ": "く゛", "げ": "け゛", "ご": "こ゛",
@@ -140,6 +163,12 @@
             let url = encodeURIComponent(location.href)
             window.open("https://twitter.com/share?text=" + text + "&url=" + url);
         }
+
+        function inverseObject (obj, keyIsNumber) {
+            return Object.keys(obj).reduceRight(function (ret, k) {
+                return (ret[obj[k]] = keyIsNumber ? parseInt(k, 10) : k, ret);
+            }, {});
+            }
     </script>
   </body>
 </html>
